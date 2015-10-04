@@ -1,7 +1,8 @@
 main
-	mainloopclass
-		directx clearstuff
+	updateloop
 		update everything
+	grafikloop
+		directx clearstuff
 		world: render
 		gui: mainrendertarget ->render
 		end-scene
