@@ -13,21 +13,51 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Quelldateien\Engine">
-      <UniqueIdentifier>{d14abf9a-37ed-42f6-bed4-05695374f793}</UniqueIdentifier>
+    <Filter Include="Quelldateien\Graphics">
+      <UniqueIdentifier>{461665a5-c9e3-4460-bde6-a14e558997d4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Headerdateien\Engine">
+    <Filter Include="Headerdateien\Input">
+      <UniqueIdentifier>{a42beb2b-52a4-4125-ab03-2478988aed8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Graphics">
       <UniqueIdentifier>{13c39c1d-0e8e-4ac4-b8cb-9da9f9f4e181}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Input">
+      <UniqueIdentifier>{d14abf9a-37ed-42f6-bed4-05695374f793}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
+    <ClCompile Include="src\Main.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Input.cpp">
+      <Filter>Quelldateien\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\System.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Graphics.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\D3D.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine\Settings.h">
-      <Filter>Quelldateien\Engine</Filter>
+    <ClInclude Include="src\Settings.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Input.h">
+      <Filter>Headerdateien\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\System.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Graphics.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\D3D.h">
+      <Filter>Headerdateien\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
