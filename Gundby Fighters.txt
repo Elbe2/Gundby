@@ -1,0 +1,19 @@
+main
+	mainloopclass
+		directx clearstuff
+		update everything
+		world: render
+		gui: mainrendertarget ->render
+		end-scene
+
+
+Gameplan:
+Hack n Slay
+Mittelalter 
+Burgen, Festungen
+Punkte wie in CtF (Stellungen die man kurz halten muss, dann von der KI gehalten werden können)
+Monsterhorden spawnen, Bosse, verschiedene Fähigkeiten
+
+Verschiedene Chars:
+Kishida - Frau/Mädchen - Magie + Nahkampf schwert
+
