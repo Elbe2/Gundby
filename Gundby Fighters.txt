@@ -18,3 +18,8 @@ Monsterhorden spawnen, Bosse, verschiedene Fähigkeiten
 Verschiedene Chars:
 Kishida - Frau/Mädchen - Magie + Nahkampf schwert
 
+completely different gameplan (based on oban):
+race-game
+grandprix-like rounds, consisting of 5-20 races, with each race beeing fairly short (like 5 minutes).
+after each race you get some 'time' (resource), which you can invest in your vehicle by choosing different things to improve or repair if you crashed to much
+there should be different racers (maybe even races with different vehicles and systems to improve)
