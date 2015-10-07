@@ -25,6 +25,21 @@
     <Filter Include="Quelldateien\Input">
       <UniqueIdentifier>{d14abf9a-37ed-42f6-bed4-05695374f793}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{710f8f69-e161-4260-9ba7-02a3c3aedc43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Graphics\Shader">
+      <UniqueIdentifier>{70c42a06-2eff-41b9-ac8a-89e142e0f6cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Graphics\Shader">
+      <UniqueIdentifier>{e76b730c-288e-4e1c-9e3a-4e26f5333f02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Model">
+      <UniqueIdentifier>{78c0df43-d61e-4e31-b390-ac0ffb8ff212}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Model">
+      <UniqueIdentifier>{c33cf328-1ed1-484d-a42b-2b66f2ac4bb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -41,6 +56,15 @@
     </ClCompile>
     <ClCompile Include="src\Graphics\D3D.cpp">
       <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Shader\ColorShader.cpp">
+      <Filter>Quelldateien\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\Camera.cpp">
+      <Filter>Quelldateien\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Model\Model.cpp">
+      <Filter>Quelldateien\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,5 +83,22 @@
     <ClInclude Include="src\Graphics\D3D.h">
       <Filter>Headerdateien\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Graphics\Shader\ColorShader.h">
+      <Filter>Headerdateien\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\Camera.h">
+      <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Model\Model.h">
+      <Filter>Headerdateien\Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Shader\colorvs.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="Shader\colorps.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
