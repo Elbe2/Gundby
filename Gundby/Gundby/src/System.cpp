@@ -10,12 +10,27 @@ bool System::Frame(void)
 {
 	bool result;
 	
-	if (m_pInput->IsKeyDown(VK_ESCAPE))
-	{
-		return false;
-	}
+	bool ret = true;
+	int mouseX;
+	int mouseY;
 
-	result = m_pGraphics->Update();
+	if (!m_pInput->Frame())
+		return false;
+
+	m_pInput->GetMouseCoord(mouseX, mouseY);
+
+	m_pTimer->Frame();
+	m_pFps->Frame();
+	m_pCpu->Frame();
+	
+	int cpu, fps;
+	float ftime;
+
+	ftime = m_pTimer->GetFrameTime();
+	cpu = m_pCpu->GetCPUPercentageUsage();
+	fps = m_pFps->GetFPS();
+
+	result = m_pGraphics->Frame(fps,cpu,ftime);
 	if (!result)
 	{
 		return false;
@@ -96,6 +111,9 @@ System::System(void)
 {
 	m_pInput = NULL;
 	m_pGraphics = NULL;
+	m_pFps = NULL;
+	m_pTimer = NULL;
+	m_pCpu = NULL;
 }
 
 System::~System(void)
@@ -114,12 +132,12 @@ bool System::Initialize(void)
 
 	InitializeWindows();
 
-	m_pInput = new Input;
+	m_pInput = new CInput;
 	if (!m_pInput)
 	{
 		return false;
 	}
-	m_pInput->Initialize();
+	m_pInput->Init(m_hInstance,m_hWnd,m_pSettings->GetScreenWidth(),m_pSettings->GetScreenHeight());
 
 	m_pGraphics = new Graphics;
 	if (!m_pGraphics)
@@ -131,6 +149,22 @@ bool System::Initialize(void)
 	{
 		return false;
 	}
+
+	m_pCpu = new CCpu();
+	if (!m_pCpu)
+		return false;
+	m_pCpu->Init();
+
+	m_pFps = new CFps();
+	if (!m_pFps)
+		return false;
+	m_pFps->Init();
+
+	m_pTimer = new CTimer();
+	if (!m_pTimer)
+		return false;
+	if (!m_pTimer->Init())
+		return false;
 
 	return true;
 }
@@ -148,6 +182,25 @@ void System::Destroy(void)
 	{
 		delete m_pInput;
 		m_pInput = 0;
+	}
+
+	if (m_pTimer)
+	{
+		delete m_pTimer;
+		m_pTimer = NULL;
+	}
+
+	if (m_pFps)
+	{
+		delete m_pFps;
+		m_pFps = NULL;
+	}
+
+	if (m_pCpu)
+	{
+		m_pCpu->Shutdown();
+		delete m_pCpu;
+		m_pCpu = NULL;
 	}
 
 	DestroyWindows();
@@ -182,23 +235,15 @@ void System::Run(void)
 				done = true;
 			}
 		}
-
+		if (m_pInput->IsEscapePressed())
+			done = true;
+		Sleep(0);
 	}
 }
 
 LRESULT System::MessageHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-	case WM_KEYDOWN:
-		m_pInput->KeyDown((unsigned int)wParam);
-		return 0;
-	case WM_KEYUP:
-		m_pInput->KeyUp((unsigned int)wParam);
-		return 0;
-	default:
-		return DefWindowProc(hWnd, msg, wParam, lParam);
-	}
+	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
 static LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)

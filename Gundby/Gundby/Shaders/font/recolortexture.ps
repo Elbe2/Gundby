@@ -1,0 +1,33 @@
+// ------------------------------------------------------------------
+// Lukas Beinlich, 27.07.2014
+// font.ps
+// Ein sehr einfacher Pixel Shader für die Schrift
+// ------------------------------------------------------------------
+
+Texture2D shaderTexture;
+SamplerState SampleType;
+
+cbuffer PixelBuffer
+{
+	float4 pixelColor;
+};
+
+struct PixelInputType
+{
+	float4 position : SV_POSITION;
+	float2 tex : TEXCOORD0;
+};
+
+float4 FontPixelShader(PixelInputType input) : SV_TARGET
+{
+	float4 color;
+	float4 ret;
+
+	color = shaderTexture.Sample(SampleType,input.tex);
+
+	ret.r = pixelColor.x;
+	ret.g = pixelColor.y;
+	ret.b = pixelColor.z;
+	ret.a = color.a;
+	return ret;
+}

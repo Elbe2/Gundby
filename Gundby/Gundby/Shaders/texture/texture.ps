@@ -1,0 +1,22 @@
+// ------------------------------------------------------------------
+// Lukas Beinlich, 25.07.2014
+// texture.ps
+// Ein sehr einfacher Pixel Shader für Texturen
+// ------------------------------------------------------------------
+
+Texture2D shaderTexture;
+SamplerState SampleType;
+
+struct PixelInputType
+{
+	float4 position : SV_POSITION;
+	float2 tex : TEXCOORD0;
+};
+
+float4 ColorPixelShader(PixelInputType input) : SV_TARGET
+{
+	float4 texturecolor;
+
+	texturecolor = shaderTexture.Sample(SampleType,input.tex);
+	return texturecolor;
+}

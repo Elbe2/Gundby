@@ -6,8 +6,175 @@
 
 #include "src\Graphics\D3D.h"
 
+bool D3D::CreateDepthBuffer(void)
+{
+	D3D11_TEXTURE2D_DESC DepthBufferDesc;
+	// Jetzt kommt der DepthBuffer und der Depthstencil-Buffer
+	ZeroMemory(&DepthBufferDesc, sizeof(DepthBufferDesc));
+	DepthBufferDesc.Width = m_pSettings->GetScreenWidth();
+	DepthBufferDesc.Height = m_pSettings->GetScreenHeight();
+	DepthBufferDesc.MipLevels = 1;
+	DepthBufferDesc.ArraySize = 1;
+	DepthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	DepthBufferDesc.SampleDesc.Count = 1;
+	DepthBufferDesc.SampleDesc.Quality = 0;
+	DepthBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	DepthBufferDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	DepthBufferDesc.CPUAccessFlags = 0;
+	DepthBufferDesc.MiscFlags = 0;
+	if (FAILED(m_Device->CreateTexture2D(&DepthBufferDesc, NULL, &m_DepthStencilBuffer)))
+	{
+		MessageBox(m_hWnd, L"Fehler beim erstellen des DepthBuffer.", L"Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+	return true;
+}
+
+bool D3D::CreateDepthStencilBuffer(void)
+{
+	D3D11_DEPTH_STENCIL_DESC DepthStencilDesc;
+	// Als nächstes den DepthStencil State initialisieren
+	ZeroMemory(&DepthStencilDesc, sizeof(DepthStencilDesc));
+	DepthStencilDesc.DepthEnable = true;
+	DepthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	DepthStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	DepthStencilDesc.StencilEnable = true;
+	DepthStencilDesc.StencilReadMask = 0xff;
+	DepthStencilDesc.StencilWriteMask = 0xff;
+
+	DepthStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	DepthStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	DepthStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	DepthStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	DepthStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	DepthStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	DepthStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	DepthStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	if (FAILED(m_Device->CreateDepthStencilState(&DepthStencilDesc, &m_DepthStencilState)))
+	{
+		MessageBox(m_hWnd, L"Fehler beim erstellen des DepthStencilState.", L"Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+	// Und benutzen
+	m_DeviceContext->OMSetDepthStencilState(m_DepthStencilState, 1);
+	return true;
+}
+
+bool D3D::CreateDisabledDepthStencilBuffer(void)
+{
+	D3D11_DEPTH_STENCIL_DESC DepthDisabledStencilDesc;
+	// DepthStencilState ohne Depth erstellen
+	ZeroMemory(&DepthDisabledStencilDesc, sizeof(DepthDisabledStencilDesc));
+	DepthDisabledStencilDesc.DepthEnable = false;
+	DepthDisabledStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	DepthDisabledStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	DepthDisabledStencilDesc.StencilEnable = true;
+	DepthDisabledStencilDesc.StencilReadMask = 0xff;
+	DepthDisabledStencilDesc.StencilWriteMask = 0xff;
+	DepthDisabledStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	DepthDisabledStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	DepthDisabledStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	DepthDisabledStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	DepthDisabledStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	DepthDisabledStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	DepthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	DepthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	if (FAILED(m_Device->CreateDepthStencilState(&DepthDisabledStencilDesc, &m_DepthDisabledStencilState)))
+		return false;
+	return true;
+}
+
+bool D3D::CreateDepthStencilView(void)
+{
+	D3D11_DEPTH_STENCIL_VIEW_DESC DepthStencilViewDesc;
+	// Jetzt den DepthStencilView erstellen
+	ZeroMemory(&DepthStencilViewDesc, sizeof(DepthStencilViewDesc));
+	DepthStencilViewDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	DepthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	DepthStencilViewDesc.Texture2D.MipSlice = 0;
+	if (FAILED(m_Device->CreateDepthStencilView(m_DepthStencilBuffer, &DepthStencilViewDesc, &m_DepthStencilView)))
+	{
+		MessageBox(m_hWnd, L"Fehler beim erstellen des DepthStencilView.", L"Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
+	return true;
+}
+
+bool D3D::CreateRasterizerState(void)
+{
+	D3D11_RASTERIZER_DESC RasterDesc;
+	// Einen StandardRasterizer State erstellen
+	RasterDesc.AntialiasedLineEnable = true;
+	RasterDesc.CullMode = D3D11_CULL_BACK;
+	RasterDesc.DepthBias = 0;
+	RasterDesc.DepthBiasClamp = 0.0f;
+	RasterDesc.DepthClipEnable = true;
+	RasterDesc.FillMode = D3D11_FILL_SOLID;
+	RasterDesc.FrontCounterClockwise = false;
+	RasterDesc.MultisampleEnable = false;
+	RasterDesc.ScissorEnable = false;
+	RasterDesc.SlopeScaledDepthBias = 0.0f;
+	if (FAILED(m_Device->CreateRasterizerState(&RasterDesc, &m_RasterState)))
+	{
+		MessageBox(m_hWnd, L"Fehler beim erstellen des RasterizerState.", L"Error", MB_OK | MB_ICONERROR);
+		return false;
+	}
+	m_DeviceContext->RSSetState(m_RasterState);
+	return true;
+}
+
+bool D3D::CreateViewport(void)
+{
+	D3D11_VIEWPORT Viewport;
+	float FOV;
+	float ScreenAspect;
+	// Viewport initialisieren
+	Viewport.Width = (float)m_pSettings->GetScreenWidth();
+	Viewport.Height = (float)m_pSettings->GetScreenHeight();
+	Viewport.MinDepth = 0.0f;
+	Viewport.MaxDepth = 1.0f;
+	Viewport.TopLeftX = 0.0f;
+	Viewport.TopLeftY = 0.0f;
+	m_DeviceContext->RSSetViewports(1, &Viewport);
+	// ProjektionsMatrix erstellen
+	FOV = (float)XM_PI / 4.0f;
+	ScreenAspect = (float)m_pSettings->GetScreenWidth() / (float)m_pSettings->GetScreenHeight();
+	m_ProjectionMatrix = XMMatrixPerspectiveFovLH(FOV, ScreenAspect, m_pSettings->GetScreenNear(), m_pSettings->GetScreenDepth());
+	// WorldMatrix
+	m_WorldMatrix = XMMatrixIdentity();
+	// OrthoMatrix für 2D-Rendering
+	m_OrthoMatrix = XMMatrixOrthographicLH((float)m_pSettings->GetScreenWidth(), (float)m_pSettings->GetScreenHeight(), m_pSettings->GetScreenNear(), m_pSettings->GetScreenDepth());
+
+	return true;
+}
+
+void D3D::ResetViewPort(void)
+{
+	D3D11_VIEWPORT Viewport;
+	Viewport.Width = (float)m_pSettings->GetScreenWidth();
+	Viewport.Height = (float)m_pSettings->GetScreenHeight();
+	Viewport.MinDepth = 0.0f;
+	Viewport.MaxDepth = 1.0f;
+	Viewport.TopLeftX = 0.0f;
+	Viewport.TopLeftY = 0.0f;
+	m_DeviceContext->RSSetViewports(1, &Viewport);
+
+}
+
 D3D::D3D(void)
 {
+	m_SwapChain = NULL;
+	m_Device = NULL;
+	m_DeviceContext = NULL;
+	m_RenderTargetView = NULL;
+	m_DepthStencilBuffer = NULL;
+	m_DepthStencilState = NULL;
+	m_DepthDisabledStencilState = NULL;
+	m_DepthStencilView = NULL;
+	m_RasterState = NULL;
+	m_AlphaDisableBlendingState = NULL;
+	m_AlphaEnableBlendingState = NULL;
 }
 
 D3D::~D3D(void)
@@ -36,6 +203,7 @@ bool D3D::Initialize(HWND hWnd, Settings *pSettings)
 	float fieldOfView, screenAspect;
 
 	m_pSettings = pSettings;
+	m_hWnd = hWnd;
 
 	// Create a DirectX graphics interface factory.
 	result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&factory);

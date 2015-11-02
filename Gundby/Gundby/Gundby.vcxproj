@@ -19,22 +19,78 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Control\Cpu.cpp" />
+    <ClCompile Include="src\Control\Fps.cpp" />
+    <ClCompile Include="src\Control\Timer.cpp" />
+    <ClCompile Include="src\Graphics\Bitmap.cpp" />
     <ClCompile Include="src\Graphics\Camera.cpp" />
     <ClCompile Include="src\Graphics\D3D.cpp" />
+    <ClCompile Include="src\Graphics\d3dClass2.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="src\Graphics\DebugWindow.cpp" />
+    <ClCompile Include="src\Graphics\Font\Font2.cpp" />
+    <ClCompile Include="src\Graphics\FrustrumCulling.cpp" />
+    <ClCompile Include="src\Graphics\Grafik.cpp" />
     <ClCompile Include="src\Graphics\Graphics.cpp" />
-    <ClCompile Include="src\Graphics\Shader\ColorShader.cpp" />
+    <ClCompile Include="src\Graphics\Light.cpp" />
+    <ClCompile Include="src\Graphics\OrthoWindow.cpp" />
+    <ClCompile Include="src\Graphics\RenderTexture.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SBasic.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SColor.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SContainer.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SFont.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SHorizontalBlur.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SLight.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SMultiTexture.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SRecolorTexture.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SSpecularLight.cpp" />
+    <ClCompile Include="src\Graphics\Shader\STexture.cpp" />
+    <ClCompile Include="src\Graphics\Shader\SVerticalBlur.cpp" />
+    <ClCompile Include="src\Graphics\Texture.cpp" />
+    <ClCompile Include="src\Graphics\TextureArray.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\Model\Model.cpp" />
+    <ClCompile Include="src\Model\BaseModel.cpp" />
+    <ClCompile Include="src\Model\MeshModel.cpp" />
+    <ClCompile Include="src\Model\ModeList.cpp" />
     <ClCompile Include="src\System.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Control\Cpu.h" />
+    <ClInclude Include="src\Control\Fps.h" />
+    <ClInclude Include="src\Control\Timer.h" />
+    <ClInclude Include="src\Graphics\Bitmap.h" />
     <ClInclude Include="src\Graphics\Camera.h" />
     <ClInclude Include="src\Graphics\D3D.h" />
+    <ClInclude Include="src\Graphics\d3dClass2.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="src\Graphics\DebugWindow.h" />
+    <ClInclude Include="src\Graphics\Font\Font2.h" />
+    <ClInclude Include="src\Graphics\FrustrumCulling.h" />
+    <ClInclude Include="src\Graphics\Grafik2.h" />
     <ClInclude Include="src\Graphics\Graphics.h" />
-    <ClInclude Include="src\Graphics\Shader\ColorShader.h" />
+    <ClInclude Include="src\Graphics\Light.h" />
+    <ClInclude Include="src\Graphics\OrthoWindow.h" />
+    <ClInclude Include="src\Graphics\RenderTexture.h" />
+    <ClInclude Include="src\Graphics\Shader\SBasic.h" />
+    <ClInclude Include="src\Graphics\Shader\SColor.h" />
+    <ClInclude Include="src\Graphics\Shader\SContainer.h" />
+    <ClInclude Include="src\Graphics\Shader\SFont.h" />
+    <ClInclude Include="src\Graphics\Shader\SHorizontalBlur.h" />
+    <ClInclude Include="src\Graphics\Shader\SLight.h" />
+    <ClInclude Include="src\Graphics\Shader\SMultiTexture.h" />
+    <ClInclude Include="src\Graphics\Shader\SRecolorTexture.h" />
+    <ClInclude Include="src\Graphics\Shader\SSpecularLight.h" />
+    <ClInclude Include="src\Graphics\Shader\STexture.h" />
+    <ClInclude Include="src\Graphics\Shader\SVerticalBlur.h" />
+    <ClInclude Include="src\Graphics\Texture.h" />
+    <ClInclude Include="src\Graphics\TextureArray.h" />
     <ClInclude Include="src\Input\Input.h" />
-    <ClInclude Include="src\Model\Model.h" />
+    <ClInclude Include="src\Model\BaseModel.h" />
+    <ClInclude Include="src\Model\MeshModel.h" />
+    <ClInclude Include="src\Model\ModelList.h" />
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\System.h" />
   </ItemGroup>
@@ -57,7 +113,7 @@
     <ProjectGuid>{A31C2991-A66B-4D5A-9E2D-F4202294BA4A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Gundby</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -136,11 +192,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\Lukas\Documents\Programieren\Gundby\Gundby\Gundby;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Lukas\Documents\Programieren\Gundby\Gundby\DirectXTK-master\Inc;C:\Users\Lukas\Documents\Programieren\Gundby\Gundby\Gundby;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\Lukas\Documents\Programieren\Gundby\Gundby\DirectXTK-master\Bin\Desktop_2015_Win10\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DirectXTK.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

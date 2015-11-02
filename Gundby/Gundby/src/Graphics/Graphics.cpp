@@ -7,12 +7,20 @@
 #include "src\Graphics\Graphics.h"
 
 
+
+
 Graphics::Graphics(void)
 {
+	m_hWnd = NULL;
+	m_pSettings = NULL;
 	m_pD3D = NULL;
 	m_pCamera = NULL;
-	m_pModel = NULL;
-	m_pColorShader = NULL;
+	m_pShaderContainer = NULL;
+	m_pLight = NULL;
+	m_pFrustrum = NULL;
+
+	m_pSpriteBatch = NULL;
+	m_pSpriteFont = NULL;
 }
 
 
@@ -24,6 +32,7 @@ bool Graphics::Initialize(Settings * pSettings, HWND hWnd)
 {
 	bool result;
 
+	m_hWnd = hWnd;
 	m_pSettings = pSettings;
 
 	m_pD3D = new D3D;
@@ -31,10 +40,10 @@ bool Graphics::Initialize(Settings * pSettings, HWND hWnd)
 	{
 		return false;
 	}
-	result = m_pD3D->Initialize(hWnd,m_pSettings);
+	result = m_pD3D->Initialize(m_hWnd,m_pSettings);
 	if (!result)
 	{
-		MessageBox(hWnd, L"Could not initialize Direct3D", L"Error", MB_OK);
+		MessageBox(m_hWnd, L"Could not initialize Direct3D", L"Error", MB_OK);
 		return false;
 	}
 
@@ -48,35 +57,35 @@ bool Graphics::Initialize(Settings * pSettings, HWND hWnd)
 	// Set the initial position of the camera.
 	m_pCamera->SetPosition(0.0f, 0.0f, -5.0f);
 
-	// Create the model object.
-	m_pModel = new Model;
-	if (!m_pModel)
+	m_pShaderContainer = new CSContainer;
+	if(!m_pShaderContainer)
+	{
+		return false;
+	}
+	if(!m_pShaderContainer->Init(m_pD3D->GetDevice(),hWnd))
 	{
 		return false;
 	}
 
-	// Initialize the model object.
-	result = m_pModel->Initialize(m_pD3D->GetDevice());
-	if (!result)
-	{
-		MessageBox(hWnd, L"Could not initialize the model object.", L"Error", MB_OK);
+	m_pLight = new CLight;
+	if (!m_pLight)
 		return false;
-	}
+	m_pLight->SetAmbientColor(1, 1, 1, 1);
+	m_pLight->SetDiffuseColor(1, 1, 1, 1);
+	m_pLight->SetDirection(0, 0, 1);
+	m_pLight->SetSpecularColor(0, 0, 1, 1);
+	m_pLight->SetSpecularPower(0.5);
 
-	// Create the color shader object.
-	m_pColorShader = new ColorShader;
-	if (!m_pColorShader)
-	{
+	m_pFrustrum = new CFrustrum;
+	if (!m_pFrustrum)
 		return false;
-	}
+	XMMATRIX proj,view;
+	m_pD3D->GetProjectionMatrix(proj);
+	m_pCamera->GetViewMatrix(view);
+	m_pFrustrum->ConstructFrustrum(m_pSettings->GetScreenDepth(), proj, view);
 
-	// Initialize the color shader object.
-	result = m_pColorShader->Initialize(m_pD3D->GetDevice(), hWnd);
-	if (!result)
-	{
-		MessageBox(hWnd, L"Could not initialize the color shader object.", L"Error", MB_OK);
-		return false;
-	}
+	m_pSpriteBatch = new SpriteBatch(m_pD3D->GetDeviceContext());
+	m_pSpriteFont = new SpriteFont(m_pD3D->GetDevice(), L"Arial.spritefont");
 
 	return true;
 }
@@ -84,19 +93,11 @@ bool Graphics::Initialize(Settings * pSettings, HWND hWnd)
 void Graphics::Destroy(void)
 {
 	// Release the color shader object.
-	if (m_pColorShader)
+	if (m_pShaderContainer)
 	{
-		m_pColorShader->Destroy();
-		delete m_pColorShader;
-		m_pColorShader = 0;
-	}
-
-	// Release the model object.
-	if (m_pModel)
-	{
-		m_pModel->Shutdown();
-		delete m_pModel;
-		m_pModel = 0;
+		m_pShaderContainer->Shutdown();
+		delete m_pShaderContainer;
+		m_pShaderContainer = 0;
 	}
 
 	// Release the camera object.
@@ -105,6 +106,19 @@ void Graphics::Destroy(void)
 		delete m_pCamera;
 		m_pCamera = 0;
 	}
+
+	if (m_pLight)
+	{
+		delete m_pLight;
+		m_pLight = NULL;
+	}
+
+	if (m_pFrustrum)
+	{
+		delete m_pFrustrum;
+		m_pFrustrum = NULL;
+	}
+
 	// Release the Direct3D object.
 	if (m_pD3D)
 	{
@@ -114,24 +128,32 @@ void Graphics::Destroy(void)
 	}
 }
 
+bool Graphics::Frame(int fps, int cpu, float frameTime)
+{
+	if (!UpdateFps(fps, cpu))
+		return false;
+
+	if (!Update())
+		return false;
+
+	if (!Render())
+		return false;
+	return true;
+}
+
+bool Graphics::UpdateFps(int fps,int cpu)
+{
+	return true;
+}
+
 bool Graphics::Update(void)
 {
-	bool result;
-
-	result = Render();
-	if (!result)
-	{
-		return false;
-	}
-
 	return true;
 }
 
 bool Graphics::Render(void)
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
-	bool result;
-
 
 	// Clear the buffers to begin the scene.
 	m_pD3D->BeginScene(0.0f, 0.5f, 0.5f, 1.0f);
@@ -144,15 +166,9 @@ bool Graphics::Render(void)
 	m_pCamera->GetViewMatrix(viewMatrix);
 	m_pD3D->GetProjectionMatrix(projectionMatrix);
 
-	// Put the model vertex and index buffers on the graphics pipeline to prepare them for drawing.
-	m_pModel->Render(m_pD3D->GetDeviceContext());
-
-	// Render the model using the color shader.
-	result = m_pColorShader->Render(m_pD3D->GetDeviceContext(), m_pModel->GetIndexCount(), worldMatrix, viewMatrix, projectionMatrix);
-	if (!result)
-	{
-		return false;
-	}
+	m_pSpriteBatch->Begin();
+	m_pSpriteFont->DrawString(m_pSpriteBatch, L"Hello World", XMFLOAT2(100, 100));
+	m_pSpriteBatch->End();
 
 	m_pD3D->EndScene();
 

@@ -9,6 +9,10 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
+#include "src\Control\Cpu.h"
+#include "src\Control\Timer.h"
+#include "src\Control\Fps.h"
+
 #include "src\Settings.h"
 #include "src\Input\Input.h"
 #include "src\Graphics\Graphics.h"
@@ -21,8 +25,12 @@ private:
 	HINSTANCE m_hInstance;
 	HWND m_hWnd;
 
-	Input* m_pInput;
+	CInput* m_pInput;
 	Graphics* m_pGraphics;
+
+	CFps *m_pFps;
+	CCpu *m_pCpu;
+	CTimer *m_pTimer;
 
 	bool Frame(void);
 	void InitializeWindows(void);
