@@ -13,8 +13,8 @@ public:
 	bool Initialize(void) { return true; }
 	bool Destroy(void) {}
 
-	int GetScreenWidth(void) { return 800; }
-	int GetScreenHeight(void) { return 600; }
+	int GetScreenWidth(void) { return 600; }
+	int GetScreenHeight(void) { return 480; }
 	bool GetVSync(void) { return true; }
 	bool GetFullscreen(void) { return false; }
 	float GetScreenNear(void) { return 0.1f; }
