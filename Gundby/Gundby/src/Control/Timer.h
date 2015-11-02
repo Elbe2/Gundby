@@ -1,11 +1,10 @@
 // ------------------------------------------------------------------
-// Lukas Beinlich, 27.07.2014
+// Lukas Beinlich, 02.11.2015
 // Timer.h
 // Ein Timer für zeitabhängige Events
 // ------------------------------------------------------------------
 
-#ifndef __TIMER_H__
-#define __TIMER_H__
+#pragma once
 
 #include <Windows.h>
 
@@ -29,5 +28,3 @@ public:
 	// returns frametime in milliseconds
 	float GetFrameTime(void);
 };
-
-#endif //__TIMER_H__

@@ -1,12 +1,10 @@
 // ------------------------------------------------------------------
-// Lukas Beinlich, 27.07.2014
+// Lukas Beinlich, 02.11.2015
 // Cpu.h
 // Diese Klasse zeigt die momentane CPU-Auslastung an
 // ------------------------------------------------------------------
 
-#ifndef __CPU_H__
-#define __CPU_H__
-
+#pragma once
 #pragma comment(lib,"pdh.lib")
 
 #include <Pdh.h>
@@ -28,5 +26,3 @@ public:
 	void Frame(void);
 	int GetCPUPercentageUsage(void);
 };
-
-#endif //__CPU_H__

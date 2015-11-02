@@ -143,6 +143,7 @@ bool Graphics::Frame(int fps, int cpu, float frameTime)
 
 bool Graphics::UpdateFps(int fps,int cpu)
 {
+
 	return true;
 }
 

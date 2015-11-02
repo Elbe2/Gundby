@@ -1,12 +1,10 @@
 // ------------------------------------------------------------------
-// Lukas Beinlich, 27.07.2014
+// Lukas Beinlich, 02.11.2015
 // Fps.h
 // Diese Klasse zeigt die aktuellen FPS an
 // ------------------------------------------------------------------
 
-#ifndef __FPS_H__
-#define __FPS_H__
-
+#pragma once
 #pragma comment(lib,"winmm.lib")
 
 #include <Windows.h>
@@ -26,5 +24,3 @@ public:
 	void Frame(void);
 	int GetFPS(void){return m_Fps;}
 };
-
-#endif //__FPS_H__
