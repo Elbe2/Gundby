@@ -28,12 +28,13 @@ Graphics::~Graphics(void)
 {
 }
 
-bool Graphics::Initialize(Settings * pSettings, HWND hWnd)
+bool Graphics::Initialize(Settings * pSettings, HWND hWnd, CObjektManger *pManager)
 {
 	bool result;
 
 	m_hWnd = hWnd;
 	m_pSettings = pSettings;
+	m_pManager = pManager;
 
 	m_pD3D = new D3D;
 	if (!m_pD3D)
@@ -85,7 +86,7 @@ bool Graphics::Initialize(Settings * pSettings, HWND hWnd)
 	m_pFrustrum->ConstructFrustrum(m_pSettings->GetScreenDepth(), proj, view);
 
 	m_pSpriteBatch = new SpriteBatch(m_pD3D->GetDeviceContext());
-	m_pSpriteFont = new SpriteFont(m_pD3D->GetDevice(), L"Arial.spritefont");
+	m_pSpriteFont = new SpriteFont(m_pD3D->GetDevice(), L"Arial100.spritefont");
 
 	return true;
 }
@@ -143,7 +144,6 @@ bool Graphics::Frame(int fps, int cpu, float frameTime)
 
 bool Graphics::UpdateFps(int fps,int cpu)
 {
-
 	return true;
 }
 
@@ -167,8 +167,11 @@ bool Graphics::Render(void)
 	m_pCamera->GetViewMatrix(viewMatrix);
 	m_pD3D->GetProjectionMatrix(projectionMatrix);
 
+	m_pManager->Render();
+
 	m_pSpriteBatch->Begin();
-	m_pSpriteFont->DrawString(m_pSpriteBatch, L"Hello World", XMFLOAT2(100, 100));
+	m_pManager->RenderFont();
+//	m_pSpriteFont->DrawString(m_pSpriteBatch, L"Hello World", XMFLOAT2(100, 100));
 	m_pSpriteBatch->End();
 
 	m_pD3D->EndScene();

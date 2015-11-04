@@ -16,6 +16,8 @@
 #include "src\Settings.h"
 #include "src\Input\Input.h"
 #include "src\Graphics\Graphics.h"
+#include "src\Manager\Objektmanager.h"
+#include "src\GUI\FontPanel.h"
 
 class System
 {
@@ -27,10 +29,15 @@ private:
 
 	CInput* m_pInput;
 	Graphics* m_pGraphics;
+	CObjektManger *m_pManager;
 
 	CFps *m_pFps;
 	CCpu *m_pCpu;
 	CTimer *m_pTimer;
+
+	CFontPanel *m_pCpuPanel;
+	CFontPanel *m_pTimerPanel;
+	CFontPanel *m_pFpsPanel;
 
 	bool Frame(void);
 	void InitializeWindows(void);

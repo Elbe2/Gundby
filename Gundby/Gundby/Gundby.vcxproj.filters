@@ -52,6 +52,18 @@
     <Filter Include="Headerdateien\Graphics\Font">
       <UniqueIdentifier>{21a3f446-3d39-40ab-af1d-d641c9c7fed3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Manager">
+      <UniqueIdentifier>{597b98e6-b3c4-42e6-9032-032e9cfda217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\GUI">
+      <UniqueIdentifier>{ad18de44-df82-404f-a6c8-56bd3bbcca6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\GUI">
+      <UniqueIdentifier>{92cd2d57-75f1-462d-8193-7cafae2a4801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Manager">
+      <UniqueIdentifier>{d9026ad4-44d4-4d20-9a91-dc9cd1bb4dc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -156,6 +168,12 @@
     <ClCompile Include="src\Graphics\d3dClass2.cpp">
       <Filter>Quelldateien\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="src\GUI\FontPanel.cpp">
+      <Filter>Quelldateien\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager\Objektmanager.cpp">
+      <Filter>Quelldateien\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Settings.h">
@@ -259,6 +277,12 @@
     </ClInclude>
     <ClInclude Include="src\Graphics\Grafik2.h">
       <Filter>Headerdateien\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\Objektmanager.h">
+      <Filter>Headerdateien\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GUI\FontPanel.h">
+      <Filter>Headerdateien\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -49,8 +49,10 @@
     <ClCompile Include="src\Graphics\Shader\SVerticalBlur.cpp" />
     <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\Graphics\TextureArray.cpp" />
+    <ClCompile Include="src\GUI\FontPanel.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Manager\Objektmanager.cpp" />
     <ClCompile Include="src\Model\BaseModel.cpp" />
     <ClCompile Include="src\Model\MeshModel.cpp" />
     <ClCompile Include="src\Model\ModeList.cpp" />
@@ -87,7 +89,9 @@
     <ClInclude Include="src\Graphics\Shader\SVerticalBlur.h" />
     <ClInclude Include="src\Graphics\Texture.h" />
     <ClInclude Include="src\Graphics\TextureArray.h" />
+    <ClInclude Include="src\GUI\FontPanel.h" />
     <ClInclude Include="src\Input\Input.h" />
+    <ClInclude Include="src\Manager\Objektmanager.h" />
     <ClInclude Include="src\Model\BaseModel.h" />
     <ClInclude Include="src\Model\MeshModel.h" />
     <ClInclude Include="src\Model\ModelList.h" />

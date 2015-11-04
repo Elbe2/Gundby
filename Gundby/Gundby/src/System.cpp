@@ -139,12 +139,14 @@ bool System::Initialize(void)
 	}
 	m_pInput->Init(m_hInstance,m_hWnd,m_pSettings->GetScreenWidth(),m_pSettings->GetScreenHeight());
 
+	m_pManager = new CObjektManger;
+
 	m_pGraphics = new Graphics;
 	if (!m_pGraphics)
 	{
 		return false;
 	}
-	result = m_pGraphics->Initialize(m_pSettings,m_hWnd);
+	result = m_pGraphics->Initialize(m_pSettings,m_hWnd,m_pManager);
 	if (!result)
 	{
 		return false;
@@ -166,6 +168,15 @@ bool System::Initialize(void)
 	if (!m_pTimer->Init())
 		return false;
 
+	m_pFpsPanel = new CFontPanel;
+	if (!m_pFpsPanel)
+		return false;
+	m_pFpsPanel->Init(m_pGraphics->GetSpriteBatch(), m_pGraphics->GetSpriteFont());
+	m_pFpsPanel->SetText(L"Fps: -15");
+	m_pFpsPanel->SetPosition(10, 10);
+	m_pFpsPanel->SetSize(10);
+	m_pFpsPanel->SetVisible();
+	m_pManager->AddElement(m_pFpsPanel);
 	return true;
 }
 
@@ -201,6 +212,19 @@ void System::Destroy(void)
 		m_pCpu->Shutdown();
 		delete m_pCpu;
 		m_pCpu = NULL;
+	}
+
+	if (m_pManager)
+	{
+		m_pManager->Destroy();
+		delete m_pManager;
+		m_pManager = NULL;
+	}
+
+	if (m_pFpsPanel)
+	{
+		delete m_pFpsPanel;
+		m_pFpsPanel = NULL;
 	}
 
 	DestroyWindows();

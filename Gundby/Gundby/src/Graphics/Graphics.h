@@ -14,6 +14,8 @@
 #include "src\Graphics\Light.h"
 #include "src\Graphics\FrustrumCulling.h"
 #include "SpriteFont.h"
+#include "src\Manager\Objektmanager.h"
+using namespace DirectX;
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN
@@ -33,6 +35,8 @@ private:
 
 	SpriteBatch *m_pSpriteBatch;
 	SpriteFont *m_pSpriteFont;
+	
+	CObjektManger *m_pManager;
 
 	bool Render(void);
 	bool Update(void);
@@ -41,8 +45,11 @@ public:
 	Graphics(void);
 	~Graphics(void);
 
-	bool Initialize(Settings *pSettings, HWND hWnd);
+	bool Initialize(Settings *pSettings, HWND hWnd, CObjektManger *pManager);
 	void Destroy(void);
 	bool Frame(int fps, int cpu, float frameTime);
+
+	SpriteBatch* GetSpriteBatch(void) { return m_pSpriteBatch; }
+	SpriteFont* GetSpriteFont(void) { return m_pSpriteFont; }
 };
 
