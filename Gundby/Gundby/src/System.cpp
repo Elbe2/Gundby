@@ -30,6 +30,8 @@ bool System::Frame(void)
 	cpu = m_pCpu->GetCPUPercentageUsage();
 	fps = m_pFps->GetFPS();
 
+	m_pFpsPanel->Update(cpu, fps, ftime);
+
 	result = m_pGraphics->Frame(fps,cpu,ftime);
 	if (!result)
 	{
@@ -168,15 +170,13 @@ bool System::Initialize(void)
 	if (!m_pTimer->Init())
 		return false;
 
-	m_pFpsPanel = new CFontPanel;
+	m_pFpsPanel = new CFPSPanel;
 	if (!m_pFpsPanel)
 		return false;
-	m_pFpsPanel->Init(m_pGraphics->GetSpriteBatch(), m_pGraphics->GetSpriteFont());
-	m_pFpsPanel->SetText(L"Fps: -15");
-	m_pFpsPanel->SetPosition(10, 10);
-	m_pFpsPanel->SetSize(10);
-	m_pFpsPanel->SetVisible();
+	if (!m_pFpsPanel->Init(m_pGraphics->GetSpriteBatch(), m_pGraphics->GetSpriteFont(),m_pManager))
+		return false;
 	m_pManager->AddElement(m_pFpsPanel);
+
 	return true;
 }
 

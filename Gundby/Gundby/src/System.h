@@ -18,6 +18,7 @@
 #include "src\Graphics\Graphics.h"
 #include "src\Manager\Objektmanager.h"
 #include "src\GUI\FontPanel.h"
+#include "src\GUI\FPSPanel.h"
 
 class System
 {
@@ -35,9 +36,7 @@ private:
 	CCpu *m_pCpu;
 	CTimer *m_pTimer;
 
-	CFontPanel *m_pCpuPanel;
-	CFontPanel *m_pTimerPanel;
-	CFontPanel *m_pFpsPanel;
+	CFPSPanel *m_pFpsPanel;
 
 	bool Frame(void);
 	void InitializeWindows(void);

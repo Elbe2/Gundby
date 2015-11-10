@@ -50,6 +50,7 @@
     <ClCompile Include="src\Graphics\Texture.cpp" />
     <ClCompile Include="src\Graphics\TextureArray.cpp" />
     <ClCompile Include="src\GUI\FontPanel.cpp" />
+    <ClCompile Include="src\GUI\FPSPanel.cpp" />
     <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Manager\Objektmanager.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="src\Graphics\Texture.h" />
     <ClInclude Include="src\Graphics\TextureArray.h" />
     <ClInclude Include="src\GUI\FontPanel.h" />
+    <ClInclude Include="src\GUI\FPSPanel.h" />
     <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Manager\Objektmanager.h" />
     <ClInclude Include="src\Model\BaseModel.h" />

@@ -8,12 +8,14 @@
 
 #include "src\Manager\Objektmanager.h"
 #include "SpriteFont.h"
+#include <string>
+using namespace std;
 using namespace DirectX;
 
 class CFontPanel : public CObjekt
 {
 protected:
-	WCHAR *m_Text;
+	wstring m_Text;
 	int m_Size;
 	XMFLOAT4 m_Color;
 	SpriteBatch *m_pSpriteBatch;
@@ -25,7 +27,7 @@ public:
 	void Destroy(void) { m_pSpriteBatch = NULL;m_pSpriteFont = NULL; }
 
 	void SetPosition(int x, int y);
-	void SetText(WCHAR *text);
+	void SetText(wstring text);
 	void SetColor(XMFLOAT4 *col);
 	void SetSize(int pixel);
 };

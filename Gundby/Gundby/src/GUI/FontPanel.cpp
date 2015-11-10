@@ -5,6 +5,8 @@
 // ------------------------------------------------------------------
 
 #include "src\GUI\FontPanel.h"
+#include <string>
+using namespace std;
 
 bool CFontPanel::Init(SpriteBatch * batch, SpriteFont * font)
 {
@@ -22,7 +24,7 @@ bool CFontPanel::RenderFont(void)
 {
 	XMVECTOR pos = XMLoadFloat2(&m_Position);
 	XMVECTOR col = XMLoadFloat4(&m_Color);
-	m_pSpriteFont->DrawString(m_pSpriteBatch, m_Text, pos, col, 0, g_XMZero, m_Size/100.0f);
+	m_pSpriteFont->DrawString(m_pSpriteBatch, m_Text.c_str(), pos, col, 0, g_XMZero, m_Size/100.0f);
 	return true;
 }
 
@@ -32,7 +34,7 @@ void CFontPanel::SetPosition(int x, int y)
 	m_Position.y = y;
 }
 
-void CFontPanel::SetText(WCHAR * text)
+void CFontPanel::SetText(wstring text)
 {
 	m_Text = text;
 }

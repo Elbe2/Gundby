@@ -15,7 +15,7 @@ public:
 
 	int GetScreenWidth(void) { return 800; }
 	int GetScreenHeight(void) { return 600; }
-	bool GetVSync(void) { return true; }
+	bool GetVSync(void) { return false; }
 	bool GetFullscreen(void) { return false; }
 	float GetScreenNear(void) { return 0.1f; }
 	float GetScreenDepth(void) { return 1000.0f; }
